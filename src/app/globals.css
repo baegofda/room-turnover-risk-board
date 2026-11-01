@@ -1,3 +1,4 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 @import 'tailwindcss';
 
 /* 판정 등급 색상은 이 토큰으로만 써요 (docs/05-architecture.md) */
@@ -15,7 +16,7 @@
   --color-ok-soft: #e3f2ea;
   --color-none: #6b7884;
   --color-none-soft: #eaeef1;
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans), 'Pretendard', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
