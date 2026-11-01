@@ -1,9 +1,22 @@
-node_modules/
-.next/
-out/
-coverage/
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# env
 .env*
 !.env.example
-.vercel
+
+# misc
 .DS_Store
+*.pem
 *.log
+.vercel
