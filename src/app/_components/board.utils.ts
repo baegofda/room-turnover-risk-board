@@ -76,25 +76,54 @@ export const fieldStatus = (input: EvaluationInput, roomNo: string) => {
   const task = input.housekeeping.tasks.find((item) => item.roomNo === roomNo);
   const isCheckedOut = Boolean(stay?.checkedOutAt);
   const isCheckoutOverdue = !isCheckedOut && Boolean(stay) && toMs(stay?.checkOut ?? '') <= asOf;
-  const status = { isCheckoutOverdue, canCheckOut: !isCheckedOut, canStart: false, canFinish: false };
+  const status = { isCheckoutOverdue, canCheckOut: !isCheckedOut, canStart: false, canFinish: false, step: 0 };
 
   if (task?.finishedAt) {
-    return { ...status, canCheckOut: false, label: `청소 완료 ${formatClock(toMs(task.finishedAt))}` };
+    return { ...status, canCheckOut: false, step: 3, label: `청소 완료 ${formatClock(toMs(task.finishedAt))}` };
   }
   if (task?.startedAt) {
     return {
       ...status,
       canCheckOut: false,
       canFinish: true,
+      step: 2,
       label: `청소 중, ${formatClock(toMs(task.startedAt))} 시작`,
     };
   }
   if (isCheckedOut) {
-    return { ...status, canStart: true, label: `퇴실함 ${formatClock(toMs(stay?.checkedOutAt ?? ''))}, 청소 전` };
+    return {
+      ...status,
+      canStart: true,
+      step: 1,
+      label: `퇴실함 ${formatClock(toMs(stay?.checkedOutAt ?? ''))}, 청소 전`,
+    };
   }
   if (isCheckoutOverdue) {
     return { ...status, label: `체크아웃 ${formatClock(toMs(stay?.checkOut ?? ''))} 지남, 퇴실 확인 안 됨` };
   }
 
   return { ...status, label: `체크아웃 ${formatClock(toMs(stay?.checkOut ?? ''))} 예정` };
+};
+
+// 인력별 보기에서 쓰는 묶음이에요. 인력 순서는 입력 그대로, 묶음 안은 청소 시작 순서예요
+export const staffGroups = (input: EvaluationInput, rooms: RoomResult[], baseCount: number) => {
+  const byStart = (a: RoomResult, b: RoomResult) => toMs(a.cleaningStartAt) - toMs(b.cleaningStartAt);
+  const groups = input.housekeeping.staff.map((staff, index) => {
+    const assigned = rooms.filter((room) => room.assignee === staff.id).sort(byStart);
+
+    return {
+      id: staff.id,
+      from: toMs(staff.availableFrom),
+      isAdded: index >= baseCount,
+      rooms: assigned,
+      end: assigned.length > 0 ? Math.max(...assigned.map((room) => toMs(room.projectedReadyAt))) : null,
+    };
+  });
+  const unassigned = rooms.filter((room) => !input.housekeeping.staff.some(({ id }) => id === room.assignee));
+
+  if (unassigned.length > 0) {
+    groups.push({ id: '미배정', from: toMs(input.asOf), isAdded: false, rooms: unassigned.sort(byStart), end: null });
+  }
+
+  return groups;
 };
