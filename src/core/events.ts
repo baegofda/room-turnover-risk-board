@@ -1,7 +1,7 @@
 import { addMinutes, dayKey, toIso, toMs } from '@/core/time';
-import type { EvaluationInput, FieldEvent, Task } from '@/core/types';
+import type { ApplyEventParams, EvaluationInput, UpdateTaskParams } from '@/core/types';
 
-const updateTask = (input: EvaluationInput, roomNo: string, patch: Partial<Task>): EvaluationInput => {
+const updateTask = ({ input, roomNo, patch }: UpdateTaskParams): EvaluationInput => {
   const tasks = input.housekeeping.tasks;
   const exists = tasks.some((task) => task.roomNo === roomNo);
   const nextTasks = exists
@@ -12,7 +12,7 @@ const updateTask = (input: EvaluationInput, roomNo: string, patch: Partial<Task>
 };
 
 // 이벤트 하나를 반영한 새 입력을 돌려줘요. 원래 입력은 바꾸지 않아요
-export const applyEvent = (input: EvaluationInput, event: FieldEvent): EvaluationInput => {
+export const applyEvent = ({ input, event }: ApplyEventParams): EvaluationInput => {
   const asOf = toMs(input.asOf);
 
   switch (event.type) {
@@ -31,12 +31,20 @@ export const applyEvent = (input: EvaluationInput, event: FieldEvent): Evaluatio
     }
 
     case 'cleaning_started':
-      return updateTask(input, event.roomNo, { assignee: event.staffId, startedAt: input.asOf, finishedAt: null });
+      return updateTask({
+        input,
+        roomNo: event.roomNo,
+        patch: { assignee: event.staffId, startedAt: input.asOf, finishedAt: null },
+      });
 
     case 'cleaning_finished': {
       const task = input.housekeeping.tasks.find(({ roomNo }) => roomNo === event.roomNo);
 
-      return updateTask(input, event.roomNo, { startedAt: task?.startedAt ?? input.asOf, finishedAt: input.asOf });
+      return updateTask({
+        input,
+        roomNo: event.roomNo,
+        patch: { startedAt: task?.startedAt ?? input.asOf, finishedAt: input.asOf },
+      });
     }
   }
 };

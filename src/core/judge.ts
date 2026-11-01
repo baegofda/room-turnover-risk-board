@@ -1,8 +1,17 @@
 import { atLocalTime, durationLabel, hm, minutesBetween, nightsBetween, toIso, toMs } from '@/core/time';
-import type { JudgeParams, Level, Policy, Reason, ResponseWindow, RoomResult, Turnover } from '@/core/types';
+import type {
+  JudgeParams,
+  Level,
+  LevelParams,
+  LongCleaningParams,
+  Reason,
+  ReasonParams,
+  ResponseWindow,
+  RoomResult,
+} from '@/core/types';
 
 // 6절: 여유 시간으로 등급을 정해요
-const toLevel = (slackMinutes: number, policy: Policy): Level => {
+const toLevel = ({ slackMinutes, policy }: LevelParams): Level => {
   if (slackMinutes < 0) {
     return 'risk';
   }
@@ -28,7 +37,7 @@ const toResponseWindow = ({ turnover, policy, asOf }: JudgeParams): ResponseWind
 };
 
 // 4절의 가산 조건 중 실제로 해당한 것만 이유로 적어요
-const longCleaningMessage = (turnover: Turnover, baseMinutes: number) => {
+const longCleaningMessage = ({ turnover, baseMinutes }: LongCleaningParams) => {
   const { endingStay } = turnover;
   const nights = nightsBetween({ from: toMs(endingStay.checkIn), to: toMs(endingStay.checkOut) });
   const causes = [
@@ -40,7 +49,7 @@ const longCleaningMessage = (turnover: Turnover, baseMinutes: number) => {
   return `${causes.join(', ')}이라 기본 ${durationLabel(baseMinutes)}에 ${durationLabel(extraMinutes)}을 더해 ${durationLabel(turnover.cleaningMinutes)}으로 잡았어요`;
 };
 
-const buildReasons = (turnover: Turnover, policy: Policy, slackMinutes: number) => {
+const buildReasons = ({ turnover, policy, slackMinutes }: ReasonParams) => {
   const reasons: Reason[] = [];
   const nextIn = toMs(turnover.nextStay?.checkIn ?? '');
   const waitMinutes = minutesBetween({ from: turnover.releasedAt, to: turnover.startAt });
@@ -78,7 +87,7 @@ const buildReasons = (turnover: Turnover, policy: Policy, slackMinutes: number) 
   const baseMinutes = policy.roomTypes[turnover.room.type].baseCleaningMinutes;
 
   if (turnover.cleaningMinutes > baseMinutes) {
-    reasons.push({ code: 'long_cleaning', message: longCleaningMessage(turnover, baseMinutes) });
+    reasons.push({ code: 'long_cleaning', message: longCleaningMessage({ turnover, baseMinutes }) });
   }
 
   return reasons;
@@ -100,7 +109,7 @@ export const judge = ({ turnover, policy, asOf }: JudgeParams): RoomResult => {
   }
 
   const slackMinutes = minutesBetween({ from: turnover.readyAt, to: toMs(turnover.nextStay.checkIn) });
-  const level = toLevel(slackMinutes, policy);
+  const level = toLevel({ slackMinutes, policy });
 
   return {
     ...base,
@@ -108,6 +117,6 @@ export const judge = ({ turnover, policy, asOf }: JudgeParams): RoomResult => {
     responseWindow: toResponseWindow({ turnover, policy, asOf }),
     nextCheckIn: turnover.nextStay.checkIn,
     slackMinutes,
-    reasons: level === 'ok' ? [] : buildReasons(turnover, policy, slackMinutes),
+    reasons: level === 'ok' ? [] : buildReasons({ turnover, policy, slackMinutes }),
   };
 };

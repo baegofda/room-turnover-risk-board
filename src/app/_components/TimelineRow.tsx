@@ -1,7 +1,7 @@
 import { formatClock, toMs } from '@/core';
 
 import { LEVEL_BAR_STYLES, LEVEL_LABELS, LEVEL_STYLES } from '@/app/_components/board.constants';
-import { fieldStatus, roomNotes } from '@/app/_components/board.utils';
+import { fieldStatus, nextAction, roomNotes } from '@/app/_components/board.utils';
 import type { TimelineRowProps } from '@/app/_components/Timeline.types';
 
 const STEP_LABELS = ['퇴실', '청소 시작', '완료'];
@@ -21,18 +21,9 @@ const TimelineRow = ({
   const releasedAt = toMs(room.releasedAt);
   const startAt = toMs(room.cleaningStartAt);
   const readyAt = toMs(room.projectedReadyAt);
-  const notes = roomNotes(input, room);
-  const status = fieldStatus(input, room.roomNo);
-  const action = status.canCheckOut
-    ? { label: '퇴실', event: { type: 'checked_out' as const, roomNo: room.roomNo } }
-    : status.canStart
-      ? {
-          label: '청소 시작',
-          event: { type: 'cleaning_started' as const, roomNo: room.roomNo, staffId: room.assignee },
-        }
-      : status.canFinish
-        ? { label: '완료', event: { type: 'cleaning_finished' as const, roomNo: room.roomNo } }
-        : null;
+  const notes = roomNotes({ input, room });
+  const status = fieldStatus({ input, roomNo: room.roomNo });
+  const action = nextAction({ status, room });
   const meta = `퇴실 ${formatClock(releasedAt)}${notes.length > 0 ? `, ${notes.join(', ')}` : ''}`;
 
   return (

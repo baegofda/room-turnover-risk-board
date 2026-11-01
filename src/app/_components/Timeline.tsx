@@ -6,25 +6,25 @@ import { formatClock } from '@/core';
 import type { FieldEvent } from '@/core';
 
 import { fieldStatus, staffGroups, timelineRange } from '@/app/_components/board.utils';
-import type { TimelineProps, TimelineSort } from '@/app/_components/Timeline.types';
+import type { SortOption, TimelineProps, TimelineSort } from '@/app/_components/Timeline.types';
 import TimelineRow from '@/app/_components/TimelineRow';
 
-const SORT_OPTIONS: { value: TimelineSort; label: string }[] = [
+const SORT_OPTIONS: SortOption[] = [
   { value: 'staff', label: '인력별' },
   { value: 'room', label: '객실 번호순' },
 ];
 
 const Timeline = ({ input, rooms, asOf, noticeAt, baseCount, onEvent }: TimelineProps) => {
   const [sort, setSort] = useState<TimelineSort>('staff');
-  const { start, end, hours } = timelineRange(rooms, asOf);
+  const { start, end, hours } = timelineRange({ rooms, asOf });
   const position = (ms: number) => `${((Math.min(Math.max(ms, start), end) - start) / (end - start)) * 100}%`;
   const span = (from: number, to: number) => `calc(${position(to)} - ${position(from)})`;
   const overdueCheckouts: FieldEvent[] = rooms
-    .filter((room) => fieldStatus(input, room.roomNo).isCheckoutOverdue)
+    .filter((room) => fieldStatus({ input, roomNo: room.roomNo }).isCheckoutOverdue)
     .map((room) => ({ type: 'checked_out', roomNo: room.roomNo }));
   const groups =
     sort === 'staff'
-      ? staffGroups(input, rooms, baseCount)
+      ? staffGroups({ input, rooms, baseCount })
       : [
           {
             id: null,
