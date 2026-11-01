@@ -93,6 +93,20 @@ describe('청소 시간 어림', () => {
     expect(estimateCleaningMinutes({ room: roomOf, policy, stay: stayOf(1, 3) })).toBe(70);
     expect(estimateCleaningMinutes({ room: roomOf, policy, stay: stayOf(7, 4) })).toBe(90);
   });
+
+  it('청소가 길어진 이유는 숙박 일수와 인원 중 실제로 더한 것만 적는다', () => {
+    const outcome = evaluate(
+      baseInput({
+        rooms: [roomOf],
+        stays: turnover('101', at('12:00'), { nights: 3, guests: 4 }),
+      }),
+    );
+    const reasons = outcome.ok ? outcome.result.rooms[0].reasons : [];
+
+    expect(reasons.find(({ code }) => code === 'long_cleaning')?.message).toBe(
+      '3박 뒤 퇴실, 4명 숙박이라 기본 1시간에 20분을 더해 1시간 20분으로 잡았어요',
+    );
+  });
 });
 
 describe('오늘 청소할 객실 고르기', () => {
