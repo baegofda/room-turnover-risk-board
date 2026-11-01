@@ -55,3 +55,13 @@
 - 한국어 문장에는 em dash(—)와 중간점(·)을 쓰지 않아요.
 - 문장은 명사로 끝내지 않고 동사로 끝냅니다. 해요체와 습니다체를 섞어 쓰고, 해라체(~한다)는 쓰지 않아요.
 - 커밋 메시지는 한국어로 쓰고 "~합니다"로 끝냅니다.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
