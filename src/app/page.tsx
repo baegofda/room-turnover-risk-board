@@ -5,7 +5,7 @@ import type { EvaluationInput } from '@/core';
 
 const Home = () => {
   return (
-    <main className='mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-10'>
+    <main className='mx-auto flex w-full max-w-[1400px] flex-col gap-8 px-4 py-10'>
       <header className='flex flex-col gap-3'>
         <p className='text-sm font-semibold text-accent'>예시 데이터로 계산한 결과예요</p>
         <h1 className='text-3xl font-bold'>당일 운영 리스크 보드</h1>

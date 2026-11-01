@@ -1,4 +1,3 @@
-import { formatClock, toMs } from '@/core';
 import type { FieldEvent } from '@/core';
 
 import { fieldStatus } from '@/app/_components/board.utils';
@@ -16,36 +15,36 @@ const FieldPanel = ({ input, rooms, onEvent }: FieldPanelProps) => {
 
   return (
     <section className='flex flex-col gap-3' aria-labelledby='field-title'>
-      <div className='flex flex-wrap items-end justify-between gap-3'>
-        <div className='flex flex-col gap-1'>
-          <h2 id='field-title' className='text-xl font-bold'>
-            현장 기록
-          </h2>
-          <p className='text-sm text-muted'>
-            퇴실은 손님 앱, 도어락, PMS에서 들어오는 기록이고, 청소 시작과 완료는 하우스키퍼가 남기는 기록이에요. 버튼을
-            누르면 지금 판정 시각에 일어난 일로 기록하고 위의 판정을 다시 계산합니다.
-          </p>
-        </div>
-        <button
-          type='button'
-          className={BUTTON_STYLE}
-          disabled={overdueCheckouts.length === 0}
-          onClick={() => onEvent(overdueCheckouts)}
-        >
-          체크아웃 지난 객실 모두 퇴실 기록 ({overdueCheckouts.length})
-        </button>
+      <div className='flex flex-col gap-1'>
+        <h3 id='field-title' className='font-bold'>
+          현장 기록
+        </h3>
+        <p className='text-sm text-muted'>
+          퇴실은 손님 앱, 도어락, PMS에서 들어오는 기록이고, 청소 시작과 완료는 하우스키퍼가 남기는 기록이에요. 누르면
+          지금 판정 시각에 일어난 일로 기록하고 왼쪽 판정을 다시 계산합니다.
+        </p>
       </div>
+      <button
+        type='button'
+        className={BUTTON_STYLE}
+        disabled={overdueCheckouts.length === 0}
+        onClick={() => onEvent(overdueCheckouts)}
+      >
+        체크아웃 지난 객실 모두 퇴실 기록 ({overdueCheckouts.length})
+      </button>
 
       <ul className='flex flex-col divide-y divide-line rounded-lg border border-line bg-white'>
         {statuses.map(({ room, status }) => (
-          <li key={room.roomNo} className='flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5'>
-            <span className='w-16 font-mono font-bold'>{room.roomNo}호</span>
-            <span className='w-16 text-sm text-muted'>{room.assignee ?? '미배정'}</span>
-            <span
-              className={`min-w-36 flex-1 text-sm ${status.isCheckoutOverdue ? 'font-semibold text-risk' : 'text-ink'}`}
-            >
-              {status.label}
-            </span>
+          <li key={room.roomNo} className='flex flex-col gap-2 px-3 py-2.5'>
+            <div className='flex items-baseline gap-2'>
+              <span className='font-mono font-bold'>{room.roomNo}호</span>
+              <span className='text-xs text-muted'>{room.assignee ?? '미배정'}</span>
+              <span
+                className={`ml-auto text-right text-sm ${status.isCheckoutOverdue ? 'font-semibold text-risk' : 'text-ink'}`}
+              >
+                {status.label}
+              </span>
+            </div>
             <div className='flex flex-wrap items-center gap-2'>
               <span className='text-xs text-muted'>손님</span>
               <button
@@ -79,9 +78,8 @@ const FieldPanel = ({ input, rooms, onEvent }: FieldPanelProps) => {
       </ul>
 
       <p className='text-sm text-muted'>
-        판정 시각 <strong className='font-mono'>{formatClock(toMs(input.asOf))}</strong> 기준이에요. 체크아웃 시각이
-        지났는데 퇴실을 누르지 않으면 지금부터 {input.policy.overdueMinutes}분 뒤에 빈다고 보고, 청소가 예상 시간을
-        넘기면 지금부터 {input.policy.overdueMinutes}분 뒤에 끝난다고 봐요.
+        체크아웃 시각이 지났는데 퇴실 기록이 없으면 지금부터 {input.policy.overdueMinutes}분 뒤에 빈다고 보고, 청소가
+        예상 시간을 넘기면 지금부터 {input.policy.overdueMinutes}분 뒤에 끝난다고 봐요.
       </p>
     </section>
   );
