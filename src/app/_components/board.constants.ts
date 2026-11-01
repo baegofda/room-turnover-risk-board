@@ -15,7 +15,10 @@ export const LEVEL_STYLES: Record<Level, string> = {
 };
 
 export const RESPONSE_WINDOW_LABELS: Record<ResponseWindow, { title: string; action: string }> = {
-  before_notice: { title: '객실 안내 전', action: '손님 모르게 객실을 바꾸거나 청소 인력을 옮길 수 있어요' },
+  before_notice: {
+    title: '객실 안내 전',
+    action: '다른 객실을 배정하거나 청소 인력을 먼저 보내도 손님에게 다시 연락하지 않아도 돼요',
+  },
   after_notice: { title: '객실 안내 후', action: '손님에게 연락해 객실 변경을 안내해야 해요' },
   imminent: { title: '체크인 임박', action: '대체 객실을 잡거나 현장에서 바로 대응해야 해요' },
 };
