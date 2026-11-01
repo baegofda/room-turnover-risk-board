@@ -244,7 +244,8 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
             <h3 className='text-[13px] font-bold'>이 보드가 하는 일</h3>
             <p className='text-[13px] leading-[1.65] text-pretty text-muted'>
               청소 인력의 작업 순서를 따라가며 객실마다 준비가 끝나는 시각을 계산하고, 체크인 전에 준비되지 않을 객실을
-              먼저 보여 줘요. {input.policy.roomNoticeAt} 객실 안내 전에 드러나야 손님 모르게 대응할 수 있습니다.
+              먼저 보여 줘요. {input.policy.roomNoticeAt} 객실 안내 전에 알아야 손님에게 다시 연락하지 않고 대응할 수
+              있습니다.
             </p>
           </section>
           <section className='flex flex-col gap-1.5'>
