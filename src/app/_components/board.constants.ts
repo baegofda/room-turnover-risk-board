@@ -19,3 +19,12 @@ export const RESPONSE_WINDOW_LABELS: Record<ResponseWindow, { title: string; act
   after_notice: { title: '객실 안내 후', action: '손님에게 연락해 객실 변경을 안내해야 해요' },
   imminent: { title: '체크인 임박', action: '대체 객실을 잡거나 현장에서 바로 대응해야 해요' },
 };
+
+export const LEVEL_BAR_STYLES: Record<Level, string> = {
+  risk: 'bg-risk',
+  warn: 'bg-warn',
+  ok: 'bg-ok',
+  none: 'bg-none',
+};
+
+export const STAFF_LIMIT = { MIN: 1, MAX: 6 };

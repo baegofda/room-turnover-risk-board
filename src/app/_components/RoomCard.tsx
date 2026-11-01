@@ -19,7 +19,15 @@ const RoomCard = ({ room }: RoomCardProps) => {
         {room.assignee && <span className='text-sm text-muted'>담당 {room.assignee}</span>}
       </header>
 
-      <dl className='grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-4'>
+      <dl className='grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-5'>
+        <div className='flex flex-col'>
+          <dt className='text-muted'>퇴실</dt>
+          <dd className='font-mono font-semibold'>{formatClock(toMs(room.releasedAt))}</dd>
+        </div>
+        <div className='flex flex-col'>
+          <dt className='text-muted'>청소 시작</dt>
+          <dd className='font-mono font-semibold'>{formatClock(toMs(room.cleaningStartAt))}</dd>
+        </div>
         <div className='flex flex-col'>
           <dt className='text-muted'>예상 준비</dt>
           <dd className='font-mono font-semibold'>{formatClock(toMs(room.projectedReadyAt))}</dd>
@@ -31,10 +39,6 @@ const RoomCard = ({ room }: RoomCardProps) => {
         <div className='flex flex-col'>
           <dt className='text-muted'>여유</dt>
           <dd className='font-mono font-semibold'>{room.slackMinutes === null ? '-' : `${room.slackMinutes}분`}</dd>
-        </div>
-        <div className='flex flex-col'>
-          <dt className='text-muted'>청소 시작</dt>
-          <dd className='font-mono font-semibold'>{formatClock(toMs(room.cleaningStartAt))}</dd>
         </div>
       </dl>
 
