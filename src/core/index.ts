@@ -6,6 +6,7 @@ import type { EvaluationOutcome, Level, RoomResult } from '@/core/types';
 import { findInputErrors } from '@/core/validate';
 
 export { estimateCleaningMinutes } from '@/core/estimate';
+export { hm as formatClock, toMs } from '@/core/time';
 export type {
   EvaluationInput,
   EvaluationOutcome,

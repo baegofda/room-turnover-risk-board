@@ -1,26 +1,25 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/* 판정 등급 색상은 이 토큰으로만 써요 (docs/05-architecture.md) */
+@theme {
+  --color-ink: #15202a;
+  --color-muted: #586773;
+  --color-line: #d6dee4;
+  --color-canvas: #f3f6f8;
+  --color-accent: #1d5c88;
+  --color-risk: #bf3d29;
+  --color-risk-soft: #f8e3df;
+  --color-warn: #a8701a;
+  --color-warn-soft: #f8eedb;
+  --color-ok: #2b7a57;
+  --color-ok-soft: #e3f2ea;
+  --color-none: #6b7884;
+  --color-none-soft: #eaeef1;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
 }
