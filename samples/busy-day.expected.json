@@ -1,0 +1,180 @@
+{
+  "ok": true,
+  "result": {
+    "asOf": "2026-11-01T10:30:00+09:00",
+    "assignment": "default",
+    "summary": {
+      "risk": 2,
+      "warn": 0,
+      "ok": 8,
+      "none": 1
+    },
+    "rooms": [
+      {
+        "roomNo": "1210",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T15:15:00+09:00",
+        "projectedReadyAt": "2026-11-01T16:30:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-2",
+        "level": "risk",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": -30,
+        "reasons": [
+          {
+            "code": "projected_late",
+            "message": "체크인 16:00까지 청소가 끝나지 않아요. 예상 완료는 16:30입니다"
+          },
+          {
+            "code": "queue_wait",
+            "message": "손님이 나간 뒤 청소를 시작하기까지 4시간 15분을 기다려요"
+          },
+          {
+            "code": "long_cleaning",
+            "message": "오래 묵었거나 인원이 많아 청소 시간을 1시간 15분으로 잡았어요"
+          }
+        ]
+      },
+      {
+        "roomNo": "1205",
+        "releasedAt": "2026-11-01T13:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T15:25:00+09:00",
+        "projectedReadyAt": "2026-11-01T16:15:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-1",
+        "level": "risk",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": -15,
+        "reasons": [
+          {
+            "code": "projected_late",
+            "message": "체크인 16:00까지 청소가 끝나지 않아요. 예상 완료는 16:15입니다"
+          },
+          {
+            "code": "queue_wait",
+            "message": "손님이 나간 뒤 청소를 시작하기까지 2시간 25분을 기다려요"
+          }
+        ]
+      },
+      {
+        "roomNo": "1209",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T14:35:00+09:00",
+        "projectedReadyAt": "2026-11-01T15:25:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-1",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": 35,
+        "reasons": []
+      },
+      {
+        "roomNo": "1207",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T14:00:00+09:00",
+        "projectedReadyAt": "2026-11-01T15:15:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-2",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": 45,
+        "reasons": []
+      },
+      {
+        "roomNo": "1206",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T13:30:00+09:00",
+        "projectedReadyAt": "2026-11-01T14:35:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-1",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": 85,
+        "reasons": []
+      },
+      {
+        "roomNo": "1203",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T12:50:00+09:00",
+        "projectedReadyAt": "2026-11-01T14:00:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-2",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": 120,
+        "reasons": []
+      },
+      {
+        "roomNo": "1202",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T11:00:00+09:00",
+        "projectedReadyAt": "2026-11-01T11:50:00+09:00",
+        "readyBeforeNotice": true,
+        "assignee": "hk-1",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T14:00:00+09:00",
+        "slackMinutes": 130,
+        "reasons": []
+      },
+      {
+        "roomNo": "1208",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T11:50:00+09:00",
+        "projectedReadyAt": "2026-11-01T12:40:00+09:00",
+        "readyBeforeNotice": true,
+        "assignee": "hk-1",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T15:00:00+09:00",
+        "slackMinutes": 140,
+        "reasons": []
+      },
+      {
+        "roomNo": "1201",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T12:40:00+09:00",
+        "projectedReadyAt": "2026-11-01T13:30:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-1",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": 150,
+        "reasons": []
+      },
+      {
+        "roomNo": "1211",
+        "releasedAt": "2026-11-01T10:40:00+09:00",
+        "cleaningStartAt": "2026-11-01T12:00:00+09:00",
+        "projectedReadyAt": "2026-11-01T12:50:00+09:00",
+        "readyBeforeNotice": true,
+        "assignee": "hk-2",
+        "level": "ok",
+        "responseWindow": "before_notice",
+        "nextCheckIn": "2026-11-01T16:00:00+09:00",
+        "slackMinutes": 190,
+        "reasons": []
+      },
+      {
+        "roomNo": "1212",
+        "releasedAt": "2026-11-01T11:00:00+09:00",
+        "cleaningStartAt": "2026-11-01T16:15:00+09:00",
+        "projectedReadyAt": "2026-11-01T17:05:00+09:00",
+        "readyBeforeNotice": false,
+        "assignee": "hk-1",
+        "level": "none",
+        "responseWindow": null,
+        "nextCheckIn": null,
+        "slackMinutes": null,
+        "reasons": []
+      }
+    ]
+  }
+}
