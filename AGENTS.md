@@ -11,7 +11,7 @@
 
 - `src/core`에는 React와 Next.js를 import하지 않는 순수 함수만 둡니다.
 - `src/core` 안에서 `Date.now()`나 `new Date()`로 현재 시각을 쓰지 않아요. 판정 시각은 입력의 `asOf`로만 받습니다.
-- 바깥에 공개하는 진입점은 `evaluate`와 `applyEvent`뿐이에요.
+- 바깥에 공개하는 진입점은 `evaluate`와 `applyEvent`예요. 화면 표시에 필요한 `formatClock`, `toMs`와 테스트용 `estimateCleaningMinutes`도 `index.ts`로만 공개합니다.
 
 ## 시간
 
@@ -55,3 +55,4 @@
 - 한국어 문장에는 em dash(—)와 중간점(·)을 쓰지 않아요.
 - 문장은 명사로 끝내지 않고 동사로 끝냅니다. 해요체와 습니다체를 섞어 쓰고, 해라체(~한다)는 쓰지 않아요.
 - 커밋 메시지는 한국어로 쓰고 "~합니다"로 끝냅니다.
+- 커밋 제목 앞에는 이슈 번호를 붙여요. 예: `JUN-14 판정 명세대로 청소 순서와 등급 판정을 구현합니다`
