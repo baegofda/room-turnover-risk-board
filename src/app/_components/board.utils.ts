@@ -68,7 +68,7 @@ export const timelineRange = (rooms: RoomResult[], asOf: number) => {
   return { start, end, hours };
 };
 
-// 현장 입력 목록의 상태 문구와 누를 수 있는 버튼이에요
+// 현장 기록 목록의 상태 문구와 누를 수 있는 버튼이에요
 export const fieldStatus = (input: EvaluationInput, roomNo: string) => {
   const asOf = toMs(input.asOf);
   const today = input.asOf.slice(0, 10);
