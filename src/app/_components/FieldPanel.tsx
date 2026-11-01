@@ -19,10 +19,11 @@ const FieldPanel = ({ input, rooms, onEvent }: FieldPanelProps) => {
       <div className='flex flex-wrap items-end justify-between gap-3'>
         <div className='flex flex-col gap-1'>
           <h2 id='field-title' className='text-xl font-bold'>
-            현장 입력 (하우스키퍼 시점)
+            현장 기록
           </h2>
           <p className='text-sm text-muted'>
-            버튼을 누르면 지금 판정 시각에 일어난 일로 기록하고, 위의 판정을 다시 계산해요.
+            퇴실은 손님 앱, 도어락, PMS에서 들어오는 기록이고, 청소 시작과 완료는 하우스키퍼가 남기는 기록이에요. 버튼을
+            누르면 지금 판정 시각에 일어난 일로 기록하고 위의 판정을 다시 계산합니다.
           </p>
         </div>
         <button
@@ -31,7 +32,7 @@ const FieldPanel = ({ input, rooms, onEvent }: FieldPanelProps) => {
           disabled={overdueCheckouts.length === 0}
           onClick={() => onEvent(overdueCheckouts)}
         >
-          체크아웃 지난 객실 모두 퇴실 ({overdueCheckouts.length})
+          체크아웃 지난 객실 모두 퇴실 기록 ({overdueCheckouts.length})
         </button>
       </div>
 
@@ -45,7 +46,8 @@ const FieldPanel = ({ input, rooms, onEvent }: FieldPanelProps) => {
             >
               {status.label}
             </span>
-            <div className='flex gap-2'>
+            <div className='flex flex-wrap items-center gap-2'>
+              <span className='text-xs text-muted'>손님</span>
               <button
                 type='button'
                 className={BUTTON_STYLE}
@@ -54,6 +56,7 @@ const FieldPanel = ({ input, rooms, onEvent }: FieldPanelProps) => {
               >
                 퇴실
               </button>
+              <span className='ml-2 text-xs text-muted'>하우스키퍼</span>
               <button
                 type='button'
                 className={BUTTON_STYLE}
