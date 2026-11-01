@@ -1,0 +1,248 @@
+{
+  "asOf": "2026-11-01T10:30:00+09:00",
+  "policy": {
+    "roomNoticeAt": "13:00",
+    "warnSlackMinutes": 30,
+    "imminentMinutes": 60,
+    "overdueMinutes": 15,
+    "roomTypes": {
+      "studio": {
+        "baseCleaningMinutes": 50
+      },
+      "twin": {
+        "baseCleaningMinutes": 65
+      }
+    }
+  },
+  "rooms": [
+    {
+      "no": "1201",
+      "type": "studio"
+    },
+    {
+      "no": "1202",
+      "type": "studio"
+    },
+    {
+      "no": "1203",
+      "type": "studio"
+    },
+    {
+      "no": "1204",
+      "type": "studio"
+    },
+    {
+      "no": "1205",
+      "type": "studio"
+    },
+    {
+      "no": "1206",
+      "type": "twin"
+    },
+    {
+      "no": "1207",
+      "type": "twin"
+    },
+    {
+      "no": "1208",
+      "type": "studio"
+    },
+    {
+      "no": "1209",
+      "type": "studio"
+    },
+    {
+      "no": "1210",
+      "type": "twin"
+    },
+    {
+      "no": "1211",
+      "type": "studio"
+    },
+    {
+      "no": "1212",
+      "type": "studio"
+    }
+  ],
+  "stays": [
+    {
+      "id": "R-1201-A",
+      "roomNo": "1201",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1201-B",
+      "roomNo": "1201",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1202-A",
+      "roomNo": "1202",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1202-B",
+      "roomNo": "1202",
+      "checkIn": "2026-11-01T14:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1203-A",
+      "roomNo": "1203",
+      "checkIn": "2026-10-25T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1203-B",
+      "roomNo": "1203",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1204-A",
+      "roomNo": "1204",
+      "checkIn": "2026-10-30T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1205-A",
+      "roomNo": "1205",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T13:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1205-B",
+      "roomNo": "1205",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1206-A",
+      "roomNo": "1206",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1206-B",
+      "roomNo": "1206",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1207-A",
+      "roomNo": "1207",
+      "checkIn": "2026-10-30T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 4
+    },
+    {
+      "id": "R-1207-B",
+      "roomNo": "1207",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1208-A",
+      "roomNo": "1208",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1208-B",
+      "roomNo": "1208",
+      "checkIn": "2026-11-01T15:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1209-A",
+      "roomNo": "1209",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1209-B",
+      "roomNo": "1209",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1210-A",
+      "roomNo": "1210",
+      "checkIn": "2026-10-29T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    },
+    {
+      "id": "R-1210-B",
+      "roomNo": "1210",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1211-A",
+      "roomNo": "1211",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": "2026-11-01T10:40:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1211-B",
+      "roomNo": "1211",
+      "checkIn": "2026-11-01T16:00:00+09:00",
+      "checkOut": "2026-11-03T11:00:00+09:00",
+      "guests": 2
+    },
+    {
+      "id": "R-1212-A",
+      "roomNo": "1212",
+      "checkIn": "2026-10-31T16:00:00+09:00",
+      "checkOut": "2026-11-01T11:00:00+09:00",
+      "checkedOutAt": null,
+      "guests": 2
+    }
+  ],
+  "housekeeping": {
+    "staff": [
+      {
+        "id": "hk-1",
+        "availableFrom": "2026-11-01T11:00:00+09:00"
+      },
+      {
+        "id": "hk-2",
+        "availableFrom": "2026-11-01T12:00:00+09:00"
+      }
+    ],
+    "tasks": []
+  }
+}
