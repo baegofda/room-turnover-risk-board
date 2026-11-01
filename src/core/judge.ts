@@ -1,4 +1,4 @@
-import { atLocalTime, durationLabel, hm, minutesBetween, toIso, toMs } from '@/core/time';
+import { atLocalTime, durationLabel, hm, minutesBetween, nightsBetween, toIso, toMs } from '@/core/time';
 import type { JudgeParams, Level, Policy, Reason, ResponseWindow, RoomResult, Turnover } from '@/core/types';
 
 // 6절: 여유 시간으로 등급을 정해요
@@ -25,6 +25,19 @@ const toResponseWindow = ({ turnover, policy, asOf }: JudgeParams): ResponseWind
   }
 
   return 'before_notice';
+};
+
+// 4절의 가산 조건 중 실제로 해당한 것만 이유로 적어요
+const longCleaningMessage = (turnover: Turnover, baseMinutes: number) => {
+  const { endingStay } = turnover;
+  const nights = nightsBetween({ from: toMs(endingStay.checkIn), to: toMs(endingStay.checkOut) });
+  const causes = [
+    ...(nights >= 3 ? [`${nights}박 뒤 퇴실`] : []),
+    ...(endingStay.guests >= 3 ? [`${endingStay.guests}명 숙박`] : []),
+  ];
+  const extraMinutes = turnover.cleaningMinutes - baseMinutes;
+
+  return `${causes.join(', ')}이라 기본 ${durationLabel(baseMinutes)}에 ${durationLabel(extraMinutes)}을 더해 ${durationLabel(turnover.cleaningMinutes)}으로 잡았어요`;
 };
 
 const buildReasons = (turnover: Turnover, policy: Policy, slackMinutes: number) => {
@@ -62,11 +75,10 @@ const buildReasons = (turnover: Turnover, policy: Policy, slackMinutes: number) 
       message: `예상 청소 시간 ${durationLabel(turnover.cleaningMinutes)}이 지났는데 아직 끝나지 않았어요`,
     });
   }
-  if (turnover.cleaningMinutes > policy.roomTypes[turnover.room.type].baseCleaningMinutes) {
-    reasons.push({
-      code: 'long_cleaning',
-      message: `오래 묵었거나 인원이 많아 청소 시간을 ${durationLabel(turnover.cleaningMinutes)}으로 잡았어요`,
-    });
+  const baseMinutes = policy.roomTypes[turnover.room.type].baseCleaningMinutes;
+
+  if (turnover.cleaningMinutes > baseMinutes) {
+    reasons.push({ code: 'long_cleaning', message: longCleaningMessage(turnover, baseMinutes) });
   }
 
   return reasons;
