@@ -213,7 +213,7 @@
       "assignee": "hk-1",
       "reasons": [
         { "code": "projected_late", "message": "체크인 14:00까지 청소가 끝나지 않아요. 예상 완료는 14:40입니다" },
-        { "code": "long_cleaning", "message": "7박 뒤 퇴실이라 청소 시간을 70분으로 잡았어요" }
+        { "code": "long_cleaning", "message": "7박 뒤 퇴실이라 기본 50분에 20분을 더해 1시간 10분으로 잡았어요" }
       ]
     }
   ]
