@@ -2,11 +2,12 @@
 
 import { useMemo, useState } from 'react';
 
-import { evaluate, formatClock, toMs } from '@/core';
-import type { Level } from '@/core';
+import { applyEvent, evaluate, formatClock, toMs } from '@/core';
+import type { FieldEvent, Level } from '@/core';
 
-import { LEVEL_LABELS, LEVEL_STYLES, STAFF_LIMIT } from '@/app/_components/board.constants';
+import { LAST_TIME, LEVEL_LABELS, LEVEL_STYLES, STAFF_LIMIT, TIME_STEPS } from '@/app/_components/board.constants';
 import { isLateOnItsOwn, withStaffCount } from '@/app/_components/board.utils';
+import FieldPanel from '@/app/_components/FieldPanel';
 import RoomCard from '@/app/_components/RoomCard';
 import type { RiskBoardProps } from '@/app/_components/RiskBoard.types';
 import Timeline from '@/app/_components/Timeline';
@@ -16,7 +17,18 @@ const SUMMARY_ORDER: Level[] = ['risk', 'warn', 'ok', 'none'];
 const RiskBoard = ({ input }: RiskBoardProps) => {
   const baseCount = input.housekeeping.staff.length;
   const [staffCount, setStaffCount] = useState(baseCount);
-  const simulatedInput = useMemo(() => withStaffCount(input, staffCount), [input, staffCount]);
+  const [fieldInput, setFieldInput] = useState(input);
+  const simulatedInput = useMemo(() => withStaffCount(fieldInput, staffCount), [fieldInput, staffCount]);
+  const lastTime = toMs(`${input.asOf.slice(0, 10)}T${LAST_TIME}:00+09:00`);
+
+  const handleEvents = (events: FieldEvent[]) => {
+    setFieldInput((current) => events.reduce(applyEvent, current));
+  };
+
+  const handleReset = () => {
+    setFieldInput(input);
+    setStaffCount(baseCount);
+  };
   const outcome = useMemo(() => evaluate(simulatedInput), [simulatedInput]);
 
   if (!outcome.ok) {
@@ -41,6 +53,31 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
 
   return (
     <div className='flex flex-col gap-10'>
+      <div className='flex flex-wrap items-center gap-3 rounded-lg border border-line bg-white px-4 py-3'>
+        <span className='text-sm text-muted'>판정 시각</span>
+        <strong className='font-mono text-2xl' aria-live='polite'>
+          {formatClock(asOf)}
+        </strong>
+        {TIME_STEPS.map((minutes) => (
+          <button
+            key={minutes}
+            type='button'
+            className='rounded-md border border-line px-2.5 py-1 text-sm font-semibold hover:bg-canvas disabled:opacity-30'
+            disabled={asOf + minutes * 60_000 > lastTime}
+            onClick={() => handleEvents([{ type: 'advance_time', minutes }])}
+          >
+            +{minutes < 60 ? `${minutes}분` : `${minutes / 60}시간`}
+          </button>
+        ))}
+        <button
+          type='button'
+          className='ml-auto rounded-md px-2.5 py-1 text-sm text-muted underline hover:text-ink'
+          onClick={handleReset}
+        >
+          처음 상태로
+        </button>
+      </div>
+
       <section className='flex flex-col gap-4' aria-labelledby='timeline-title'>
         <div className='flex flex-wrap items-end justify-between gap-4'>
           <div className='flex flex-col gap-2'>
@@ -95,7 +132,7 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
           <strong className='text-warn'>{result.summary.warn}실</strong>입니다.
         </p>
 
-        <Timeline input={simulatedInput} rooms={result.rooms} noticeAt={noticeAt} />
+        <Timeline input={simulatedInput} rooms={result.rooms} asOf={asOf} noticeAt={noticeAt} />
 
         <p className='text-sm text-muted'>
           판정 시각 <strong className='font-mono'>{formatClock(asOf)}</strong> 기준이에요.
@@ -116,6 +153,8 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
           <RoomCard key={room.roomNo} room={room} />
         ))}
       </section>
+
+      <FieldPanel input={simulatedInput} rooms={result.rooms} onEvent={handleEvents} />
     </div>
   );
 };
