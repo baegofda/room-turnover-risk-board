@@ -75,6 +75,38 @@ export interface JudgeParams {
   asOf: number;
 }
 
+export interface LevelParams {
+  slackMinutes: number;
+  policy: Policy;
+}
+
+export interface ReasonParams {
+  turnover: Turnover;
+  policy: Policy;
+  slackMinutes: number;
+}
+
+export interface LongCleaningParams {
+  turnover: Turnover;
+  baseMinutes: number;
+}
+
+export interface FindTurnoversParams {
+  input: EvaluationInput;
+  tasks: Map<string, Task>;
+}
+
+export interface UpdateTaskParams {
+  input: EvaluationInput;
+  roomNo: string;
+  patch: Partial<Task>;
+}
+
+export interface ApplyEventParams {
+  input: EvaluationInput;
+  event: FieldEvent;
+}
+
 export interface MinutesParams {
   ms: number;
   minutes: number;
