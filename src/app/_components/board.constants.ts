@@ -28,3 +28,8 @@ export const LEVEL_BAR_STYLES: Record<Level, string> = {
 };
 
 export const STAFF_LIMIT = { MIN: 1, MAX: 6 };
+
+export const TIME_STEPS = [15, 60];
+
+// 하루를 넘기면 오늘 청소할 객실이 달라지므로 이 시각까지만 넘겨요
+export const LAST_TIME = '22:00';
