@@ -21,16 +21,19 @@
 ```
 src/
   core/                 판정 로직. 순수 함수만 둡니다
-    schema.ts           Zod 스키마와 타입
+    schema.ts           Zod 스키마
+    types.ts            입력, 결과, 이벤트 타입
+    validate.ts         스키마로 잡지 못하는 입력 오류 (중복, 겹치는 예약 등)
     time.ts             date-fns를 감싼 시각 변환과 계산
     estimate.ts         estimateCleaningMinutes
     schedule.ts         작업 순서와 준비 완료 시각 계산
     judge.ts            등급, 대응 시점, 이유
-    events.ts           applyEvent (현장 이벤트 반영)
-    index.ts            evaluate, applyEvent만 바깥에 공개
+    events.ts           applyEvent (현장 기록 반영)
+    index.ts            바깥에 공개하는 함수와 타입
   app/                  Next.js 화면. core의 공개 함수만 호출해요
+    _components/        보드(RiskBoard), 간트(Timeline), 현장 기록(FieldPanel), 객실 카드
 samples/                시나리오 입력 JSON과 기대 결과
-tests/                  core 테스트
+tests/core/             명세 규칙, 현장 기록, 시나리오 테스트
 ```
 
 ## 지키는 규칙
