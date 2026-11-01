@@ -23,3 +23,8 @@ export interface TimelineRowProps {
   isFirst: boolean;
   onEvent: (events: FieldEvent[]) => void;
 }
+
+export interface SortOption {
+  value: TimelineSort;
+  label: string;
+}

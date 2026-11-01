@@ -6,7 +6,7 @@ import { applyEvent, evaluate, formatClock, toMs } from '@/core';
 import type { FieldEvent, Level } from '@/core';
 
 import { LAST_TIME, LEVEL_BAR_STYLES, LEVEL_LABELS, STAFF_LIMIT, TIME_STEPS } from '@/app/_components/board.constants';
-import { isLateOnItsOwn, withStaffCount } from '@/app/_components/board.utils';
+import { conclusionOf, isLateOnItsOwn, summaryTextStyle, withStaffCount } from '@/app/_components/board.utils';
 import RoomCard from '@/app/_components/RoomCard';
 import type { RiskBoardProps } from '@/app/_components/RiskBoard.types';
 import Timeline from '@/app/_components/Timeline';
@@ -23,12 +23,15 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
   const baseCount = input.housekeeping.staff.length;
   const [staffCount, setStaffCount] = useState(baseCount);
   const [fieldInput, setFieldInput] = useState(input);
-  const simulatedInput = useMemo(() => withStaffCount(fieldInput, staffCount), [fieldInput, staffCount]);
+  const simulatedInput = useMemo(
+    () => withStaffCount({ input: fieldInput, count: staffCount }),
+    [fieldInput, staffCount],
+  );
   const outcome = useMemo(() => evaluate(simulatedInput), [simulatedInput]);
   const lastTime = toMs(`${input.asOf.slice(0, 10)}T${LAST_TIME}:00+09:00`);
 
   const handleEvents = (events: FieldEvent[]) => {
-    setFieldInput((current) => events.reduce(applyEvent, current));
+    setFieldInput((current) => events.reduce((state, event) => applyEvent({ input: state, event }), current));
   };
 
   const handleReset = () => {
@@ -55,13 +58,7 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
   const attention = result.rooms.filter((room) => room.level === 'risk' || room.level === 'warn');
   const lateOnItsOwn = result.rooms.filter(isLateOnItsOwn).length;
   const firstStaff = input.housekeeping.staff[0];
-  const tone = result.summary.risk > 0 ? 'risk' : result.summary.warn > 0 ? 'warn' : 'ok';
-  const headline =
-    tone === 'ok'
-      ? '체크인 전에 모든 객실이 여유 있게 준비돼요.'
-      : tone === 'risk'
-        ? `체크인 전에 준비되지 않을 객실 ${result.summary.risk}실`
-        : `체크인 직전에야 준비되는 객실 ${result.summary.warn}실`;
+  const { tone, headline } = conclusionOf({ summary: result.summary });
 
   return (
     <>
@@ -160,7 +157,7 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
 
           <section className='flex flex-col justify-center gap-3.5 rounded-2xl border border-[#dfe5ea] bg-white px-6 py-[22px]'>
             <div className='flex items-baseline justify-between'>
-              <span className='text-[13px] text-muted'>오늘 청소할 객실</span>
+              <h2 className='text-[13px] font-normal text-muted'>오늘 청소할 객실</h2>
               <span className='text-sm font-bold'>
                 <span className='font-mono text-[22px]'>{result.rooms.length}</span>실
               </span>
@@ -178,7 +175,7 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
               {SUMMARY_ORDER.map((level) => (
                 <li
                   key={level}
-                  className={`flex items-center gap-1.5 ${result.summary[level] === 0 ? 'text-[#8794a0]' : level === 'none' ? 'text-muted' : 'text-ink'}`}
+                  className={`flex items-center gap-1.5 ${summaryTextStyle({ level, count: result.summary[level] })}`}
                 >
                   <i
                     className={`h-[7px] w-[7px] rounded-full ${level === 'none' ? 'bg-[#9aa6b0]' : LEVEL_BAR_STYLES[level]}`}
@@ -192,7 +189,10 @@ const RiskBoard = ({ input }: RiskBoardProps) => {
         </div>
 
         {attention.length > 0 && (
-          <section className='flex flex-col gap-3' aria-label='지금 손봐야 할 객실'>
+          <section className='flex flex-col gap-3' aria-labelledby='attention-title'>
+            <h2 id='attention-title' className='sr-only'>
+              지금 손봐야 할 객실
+            </h2>
             {attention.map((room) => (
               <RoomCard key={room.roomNo} room={room} />
             ))}

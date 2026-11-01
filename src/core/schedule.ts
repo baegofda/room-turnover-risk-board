@@ -1,6 +1,6 @@
 import { estimateCleaningMinutes } from '@/core/estimate';
 import { addMinutes, dayKey, toMs } from '@/core/time';
-import type { EvaluationInput, Schedule, Task, Turnover } from '@/core/types';
+import type { EvaluationInput, FindTurnoversParams, Schedule, Turnover } from '@/core/types';
 
 const nextCheckInMs = (turnover: Turnover) =>
   turnover.nextStay ? toMs(turnover.nextStay.checkIn) : Number.POSITIVE_INFINITY;
@@ -10,7 +10,7 @@ const compareTurnovers = (a: Turnover, b: Turnover) =>
   nextCheckInMs(a) - nextCheckInMs(b) || a.releasedAt - b.releasedAt || a.room.no.localeCompare(b.room.no);
 
 // 2절, 3절: 오늘 청소할 객실과 손님이 나가는 시각
-const findTurnovers = (input: EvaluationInput, tasks: Map<string, Task>) => {
+const findTurnovers = ({ input, tasks }: FindTurnoversParams) => {
   const asOf = toMs(input.asOf);
   const today = dayKey(asOf);
   const turnovers: Turnover[] = [];
@@ -64,7 +64,7 @@ export const buildSchedule = (input: EvaluationInput): Schedule => {
   const asOf = toMs(input.asOf);
   const overdueMinutes = input.policy.overdueMinutes;
   const tasks = new Map(input.housekeeping.tasks.map((task) => [task.roomNo, task]));
-  const turnovers = findTurnovers(input, tasks);
+  const turnovers = findTurnovers({ input, tasks });
 
   // 손이 비는 시각이에요. 아직 시작하지 않은 청소는 판정 시각 이후에만 시작해요
   const freeAt = new Map(
