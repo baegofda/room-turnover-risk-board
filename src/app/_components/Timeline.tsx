@@ -4,8 +4,8 @@ import { LEVEL_BAR_STYLES, LEVEL_LABELS, LEVEL_STYLES } from '@/app/_components/
 import { roomNotes, timelineRange } from '@/app/_components/board.utils';
 import type { TimelineProps } from '@/app/_components/Timeline.types';
 
-const Timeline = ({ input, rooms, noticeAt }: TimelineProps) => {
-  const { start, end, hours } = timelineRange(rooms);
+const Timeline = ({ input, rooms, asOf, noticeAt }: TimelineProps) => {
+  const { start, end, hours } = timelineRange(rooms, asOf);
   const position = (ms: number) => `${((Math.min(Math.max(ms, start), end) - start) / (end - start)) * 100}%`;
   const span = (from: number, to: number) => `calc(${position(to)} - ${position(from)})`;
   const sortedRooms = [...rooms].sort((a, b) => a.roomNo.localeCompare(b.roomNo));
@@ -51,6 +51,10 @@ const Timeline = ({ input, rooms, noticeAt }: TimelineProps) => {
                       <i key={hour} className='absolute inset-y-0 w-px bg-line' style={{ left: position(hour) }} />
                     ))}
                     <i className='absolute inset-y-0 w-0.5 bg-accent' style={{ left: position(noticeAt) }} />
+                    <i
+                      className='absolute inset-y-0 border-l-2 border-dashed border-warn'
+                      style={{ left: position(asOf) }}
+                    />
                     {startAt > releasedAt && (
                       <i
                         className='absolute top-2.5 h-2 rounded-sm bg-line'
@@ -94,6 +98,10 @@ const Timeline = ({ input, rooms, noticeAt }: TimelineProps) => {
         <li className='flex items-center gap-2'>
           <i className='h-4 w-0.5 bg-ink' />
           다음 체크인
+        </li>
+        <li className='flex items-center gap-2'>
+          <i className='h-4 border-l-2 border-dashed border-warn' />
+          판정 시각
         </li>
         <li className='flex items-center gap-2'>
           <i className='h-4 w-0.5 bg-accent' />

@@ -89,3 +89,10 @@ export interface LocalTimeParams {
   dayMs: number;
   time: string;
 }
+
+// 현장에서 들어오는 입력이에요. 모든 이벤트는 판정 시각(asOf)에 일어난 것으로 기록해요
+export type FieldEvent =
+  | { type: 'advance_time'; minutes: number }
+  | { type: 'checked_out'; roomNo: string }
+  | { type: 'cleaning_started'; roomNo: string; staffId: string | null }
+  | { type: 'cleaning_finished'; roomNo: string };

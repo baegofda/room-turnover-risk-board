@@ -1,4 +1,4 @@
-import { toMs } from '@/core';
+import { formatClock, toMs } from '@/core';
 import type { EvaluationInput, RoomResult } from '@/core';
 
 const MINUTE_MS = 60_000;
@@ -54,8 +54,9 @@ export const roomNotes = (input: EvaluationInput, room: RoomResult) => {
 };
 
 // 간트 가로축 범위예요. 모든 막대와 체크인 표시가 들어가도록 정시 단위로 넓혀요
-export const timelineRange = (rooms: RoomResult[]) => {
+export const timelineRange = (rooms: RoomResult[], asOf: number) => {
   const points = rooms.flatMap((room) => [
+    asOf,
     toMs(room.releasedAt),
     toMs(room.projectedReadyAt),
     ...(room.nextCheckIn ? [toMs(room.nextCheckIn)] : []),
@@ -65,4 +66,35 @@ export const timelineRange = (rooms: RoomResult[]) => {
   const hours = Array.from({ length: (end - start) / HOUR_MS + 1 }, (_, index) => start + index * HOUR_MS);
 
   return { start, end, hours };
+};
+
+// 현장 입력 목록의 상태 문구와 누를 수 있는 버튼이에요
+export const fieldStatus = (input: EvaluationInput, roomNo: string) => {
+  const asOf = toMs(input.asOf);
+  const today = input.asOf.slice(0, 10);
+  const stay = input.stays.find((item) => item.roomNo === roomNo && item.checkOut.slice(0, 10) === today);
+  const task = input.housekeeping.tasks.find((item) => item.roomNo === roomNo);
+  const isCheckedOut = Boolean(stay?.checkedOutAt);
+  const isCheckoutOverdue = !isCheckedOut && Boolean(stay) && toMs(stay?.checkOut ?? '') <= asOf;
+  const status = { isCheckoutOverdue, canCheckOut: !isCheckedOut, canStart: false, canFinish: false };
+
+  if (task?.finishedAt) {
+    return { ...status, canCheckOut: false, label: `청소 완료 ${formatClock(toMs(task.finishedAt))}` };
+  }
+  if (task?.startedAt) {
+    return {
+      ...status,
+      canCheckOut: false,
+      canFinish: true,
+      label: `청소 중, ${formatClock(toMs(task.startedAt))} 시작`,
+    };
+  }
+  if (isCheckedOut) {
+    return { ...status, canStart: true, label: `퇴실함 ${formatClock(toMs(stay?.checkedOutAt ?? ''))}, 청소 전` };
+  }
+  if (isCheckoutOverdue) {
+    return { ...status, label: `체크아웃 ${formatClock(toMs(stay?.checkOut ?? ''))} 지남, 퇴실 확인 안 됨` };
+  }
+
+  return { ...status, label: `체크아웃 ${formatClock(toMs(stay?.checkOut ?? ''))} 예정` };
 };

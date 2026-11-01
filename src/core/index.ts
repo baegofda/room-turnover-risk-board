@@ -6,11 +6,13 @@ import type { EvaluationOutcome, Level, RoomResult } from '@/core/types';
 import { findInputErrors } from '@/core/validate';
 
 export { estimateCleaningMinutes } from '@/core/estimate';
+export { applyEvent } from '@/core/events';
 export { hm as formatClock, toMs } from '@/core/time';
 export type {
   EvaluationInput,
   EvaluationOutcome,
   EvaluationResult,
+  FieldEvent,
   Level,
   ReasonCode,
   ResponseWindow,
