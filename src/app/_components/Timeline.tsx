@@ -13,7 +13,7 @@ const Timeline = ({ input, rooms, asOf, noticeAt }: TimelineProps) => {
   return (
     <div className='flex flex-col gap-3'>
       <div className='overflow-x-auto rounded-lg border border-line bg-white p-4'>
-        <div className='min-w-[640px]'>
+        <div className='min-w-[560px]'>
           <div className='grid grid-cols-[120px_1fr_72px] items-end gap-3 pb-2 text-xs text-muted'>
             <span>객실</span>
             <div className='relative h-4'>
